@@ -42,6 +42,8 @@ function Library:CreateWindow(title)
     local UICorner_6 = Instance.new("UICorner")
     local TopBar = Instance.new("Frame")
     local ExitBtn = Instance.new("ImageButton")
+    local HomeBtn = Instance.new("ImageButton")
+    local DscBtn = Instance.new("ImageButton")
     local Line = Instance.new("Frame")
     local ContentContainer = Instance.new("Frame")
 
@@ -137,7 +139,7 @@ function Library:CreateWindow(title)
 
     SearchBar.Name = "SearchBar"
     SearchBar.Parent = SearchBarHolder
-    SearchBar.BackgroundColor3 = Color3.fromRGB(39, 69, 209)
+    SearchBar.BackgroundColor3 = Color3.fromRGB(53, 83, 227)
     SearchBar.Position = UDim2.new(0, 0, 0.119999997, 0)
     SearchBar.Size = UDim2.new(1, 0, 0, 30)
     SearchBar.Font = Enum.Font.Ubuntu
@@ -221,6 +223,34 @@ function Library:CreateWindow(title)
     ExitBtn.Image = "rbxassetid://12580598830"
     ExitBtn.MouseButton1Click:Connect(function()
         zapped:Destroy()
+    end)
+
+    HomeBtn.Name = "HomeBtn"
+    HomeBtn.Parent = TopBar
+    HomeBtn.AnchorPoint = Vector2.new(0, 0.5)
+    HomeBtn.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    HomeBtn.BackgroundTransparency = 1.000
+    HomeBtn.BorderColor3 = Color3.fromRGB(255, 255, 255)
+    HomeBtn.BorderSizePixel = 0
+    HomeBtn.Position = UDim2.new(0, 20, 0.5, 0)
+    HomeBtn.Size = UDim2.new(0, 20, 0, 20)
+    HomeBtn.Image = "rbxassetid://12580604908"
+    HomeBtn.MouseButton1Click:Connect(function()
+        print("Pressed")
+    end)
+
+    DscBtn.Name = "DscBtn"
+    DscBtn.Parent = TopBar
+    DscBtn.AnchorPoint = Vector2.new(1, 0.5)
+    DscBtn.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    DscBtn.BackgroundTransparency = 1.000
+    DscBtn.BorderColor3 = Color3.fromRGB(255, 255, 255)
+    DscBtn.BorderSizePixel = 0
+    DscBtn.Position = UDim2.new(1, -50, 0.5, 0)
+    DscBtn.Size = UDim2.new(0, 20, 0, 20)
+    DscBtn.Image = "rbxassetid://12743783946"
+    DscBtn.MouseButton1Click:Connect(function()
+        setclipboard("discord.gg/")
     end)
 
     Line.Name = "Line"
@@ -893,7 +923,7 @@ function Library:CreateWindow(title)
                 Title_3.BorderSizePixel = 0
                 Title_3.Size = UDim2.new(1, -165, 1, 0)
                 Title_3.Font = Enum.Font.Ubuntu
-                Title_3.Text = "Button"
+                Title_3.Text = name
                 Title_3.TextColor3 = Color3.fromRGB(255, 255, 255)
                 Title_3.TextSize = 12.000
                 Title_3.TextXAlignment = Enum.TextXAlignment.Left
@@ -902,6 +932,197 @@ function Library:CreateWindow(title)
                 ButtonFrame.MouseButton1Click:Connect(function()
                     callback()
                 end)
+            end
+
+            function GroupTypes:CreateDropdown(name, options, callback)
+                name = name or "Dropdown"
+                options = options or {}
+                callback = callback or function(o) print(o) end
+
+                -- Dropdown Main
+                local DropTypes = {}
+                local Selected = ""
+
+                -- Dropdown Instances
+                local Dropdown2 = Instance.new("Frame")
+                local DropdownFrame_2 = Instance.new("Frame")
+                local UICorner_16 = Instance.new("UICorner")
+                local TextLabel_3 = Instance.new("TextLabel")
+                local Icon_6 = Instance.new("ImageButton")
+                local Extension2 = Instance.new("Frame")
+                local Items_2 = Instance.new("Frame")
+                local UICorner_17 = Instance.new("UICorner")
+                local UIListLayout_3 = Instance.new("UIListLayout")
+                local UIPadding_7 = Instance.new("UIPadding")
+                local Extension_2 = Instance.new("Frame")
+                local Title_10 = Instance.new("TextLabel")
+
+                -- Dropdown Properties
+                Dropdown2.Name = "Dropdown2"
+                Dropdown2.Parent = Items
+                Dropdown2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                Dropdown2.BackgroundTransparency = 1.000
+                Dropdown2.BorderSizePixel = 0
+                Dropdown2.Size = UDim2.new(1, -24, 0, 20)
+
+                DropdownFrame_2.Name = "DropdownFrame"
+                DropdownFrame_2.Parent = Dropdown2
+                DropdownFrame_2.AnchorPoint = Vector2.new(1, 0.5)
+                DropdownFrame_2.BackgroundColor3 = Color3.fromRGB(19, 24, 63)
+                DropdownFrame_2.BorderColor3 = Color3.fromRGB(27, 42, 53)
+                DropdownFrame_2.BorderSizePixel = 0
+                DropdownFrame_2.Position = UDim2.new(1, 0, 0.5, 0)
+                DropdownFrame_2.Size = UDim2.new(0, 160, 0, 20)
+
+                UICorner_16.CornerRadius = UDim.new(0, 6)
+                UICorner_16.Parent = DropdownFrame_2
+
+                TextLabel_3.Parent = DropdownFrame_2
+                TextLabel_3.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                TextLabel_3.BackgroundTransparency = 1.000
+                TextLabel_3.BorderSizePixel = 0
+                TextLabel_3.Size = UDim2.new(1, 0, 1, 0)
+                TextLabel_3.Font = Enum.Font.Ubuntu
+                TextLabel_3.Text = "..."
+                TextLabel_3.TextColor3 = Color3.fromRGB(255, 255, 255)
+                TextLabel_3.TextSize = 12.000
+
+                Icon_6.Name = "Icon"
+                Icon_6.Parent = DropdownFrame_2
+                Icon_6.AnchorPoint = Vector2.new(1, 0.5)
+                Icon_6.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                Icon_6.BackgroundTransparency = 1.000
+                Icon_6.BorderSizePixel = 0
+                Icon_6.Position = UDim2.new(1, -5, 0.5, 0)
+                Icon_6.Size = UDim2.new(0, 15, 0, 15)
+                Icon_6.Image = "rbxassetid://12583667283"
+
+                Extension2.Name = "Extension2"
+                Extension2.Parent = DropdownFrame_2
+                Extension2.BackgroundColor3 = Color3.fromRGB(23, 30, 77)
+                Extension2.BorderSizePixel = 0
+                Extension2.Position = UDim2.new(0, 0, 1, 0)
+                Extension2.Size = UDim2.new(1, 0, 0, 3)
+                Extension2.Visible = false
+
+                Items_2.Name = "Items"
+                Items_2.Parent = DropdownFrame_2
+                Items_2.Active = true
+                Items_2.BackgroundColor3 = Color3.fromRGB(23, 30, 77)
+                Items_2.BorderSizePixel = 0
+                Items_2.ClipsDescendants = true
+                Items_2.Position = UDim2.new(0, 0, 0, 20)
+                Items_2.Selectable = true
+                Items_2.Size = UDim2.new(1, 0, 0, 0)
+                Items_2.Visible = false
+
+                UICorner_17.CornerRadius = UDim.new(0, 6)
+                UICorner_17.Parent = Items_2
+
+                UIListLayout_3.Parent = Items_2
+                UIListLayout_3.SortOrder = Enum.SortOrder.LayoutOrder
+
+                UIPadding_7.Parent = Items_2
+                UIPadding_7.PaddingLeft = UDim.new(0, 6)
+
+                Extension_2.Name = "Extension"
+                Extension_2.Parent = DropdownFrame_2
+                Extension_2.AnchorPoint = Vector2.new(0, 1)
+                Extension_2.BackgroundColor3 = Color3.fromRGB(19, 24, 63)
+                Extension_2.BorderSizePixel = 0
+                Extension_2.Position = UDim2.new(0, 0, 1, 0)
+                Extension_2.Size = UDim2.new(1, 0, 0, 3)
+                Extension_2.Visible = false
+
+                Title_10.Name = "Title"
+                Title_10.Parent = Dropdown2
+                Title_10.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                Title_10.BackgroundTransparency = 1.000
+                Title_10.BorderSizePixel = 0
+                Title_10.Size = UDim2.new(1, -165, 1, 0)
+                Title_10.Font = Enum.Font.Ubuntu
+                Title_10.Text = name
+                Title_10.TextColor3 = Color3.fromRGB(255, 255, 255)
+                Title_10.TextSize = 12.000
+                Title_10.TextXAlignment = Enum.TextXAlignment.Left
+
+                -- Dropdown Code
+                UIListLayout_3:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
+                    Items_2.Size = UDim2.new(1, 0, 0, UIListLayout_3.AbsoluteContentSize.Y + 0)
+                end)
+
+                Icon_6.MouseButton1Click:Connect(function()
+                    Extension2.Visible = not Extension2.Visible
+                    Extension_2.Visible = not Extension_2.Visible
+                    Items_2.Visible = not Items_2.Visible
+                end)
+
+                if (#options > 0) then
+                    for i,v in pairs(options) do
+                        local item = Instance.new("TextButton")
+
+                        item.Name = "item"
+                        item.Parent = Items_2
+                        item.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                        item.BackgroundTransparency = 1.000
+                        item.BorderSizePixel = 0
+                        item.Size = UDim2.new(1, 0, 0, 20)
+                        item.Font = Enum.Font.Ubuntu
+                        item.TextColor3 = Color3.fromRGB(150, 150, 150)
+                        item.TextSize = 11.000
+                        item.Text = v
+                        item.TextWrapped = true
+                        item.TextXAlignment = Enum.TextXAlignment.Left
+
+                        item.MouseButton1Click:Connect(function()
+                            game.TweenService:Create(item, TweenInfo.new(0.2, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
+                                TextColor3 = Color3.fromRGB(255, 255, 255)
+                            }):Play()
+
+                            for i,v in pairs(Items_2:GetChildren()) do
+                                if (v.Name:find("item") and v ~= item) then
+                                    game.TweenService:Create(v, TweenInfo.new(0.2, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
+                                        TextColor3 = Color3.fromRGB(150, 150, 150)
+                                    }):Play()
+                                end
+                            end
+
+                            Selected = v
+                            TextLabel_3.Text = Selected
+                            callback(Selected)
+                        end)
+                    end
+                end
+
+                -- Dropdown Types
+                function DropTypes:SetOption(option)
+                    option = option or options[1]
+                    Selected = tostring(option)
+
+                    for i,v in pairs(Items_2:GetChildren()) do
+                        if (v.Name:find("item")) then
+                            if (v.Text == Selected) then
+                                v.TextColor3 = color
+                                game.TweenService:Create(v, TweenInfo.new(0.2, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
+                                    TextColor3 = color
+                                }):Play()
+                            else
+                                game.TweenService:Create(v, TweenInfo.new(0.2, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
+                                    TextColor3 = Color3.fromRGB(150, 150, 150)
+                                }):Play()
+                            end
+                        end
+                    end
+
+                    TextLabel_3 = Selected
+                    callback(Selected)
+                end
+
+                function DropTypes:GetOption()
+                    return Selected
+                end
+
+                return DropTypes
             end
 
             return GroupTypes
