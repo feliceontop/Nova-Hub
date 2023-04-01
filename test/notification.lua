@@ -115,7 +115,7 @@ function Library:CreateNotification(title)
     Title_2.BorderSizePixel = 0
     Title_2.Size = UDim2.new(1, 0, 1, 0)
     Title_2.Font = Enum.Font.Ubuntu
-    Title_2.Text = "<b>".. title .."</b>"
+    Title_2.Text = title
     Title_2.RichText = true
     Title_2.TextColor3 = Color3.fromRGB(255, 255, 255)
     Title_2.TextSize = 10.000
