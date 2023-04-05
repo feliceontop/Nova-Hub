@@ -211,6 +211,10 @@ function Library:CreateWindow(title)
         end
     end)
 
+    function WinTypes:Destroy()
+        Fatility:Destory()
+    end
+
     function WinTypes:CreateTab(name)
         name = name or "Tab"
 
