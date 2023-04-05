@@ -3,10 +3,10 @@ local Library = {}
 function Library:CreateWindow(title)
     title = title or "UI Library"
 
-    if game:GetService("CoreGui"):FindFirstChild(name) then
-        game:GetService("CoreGui")[name]:Destroy()
+    if game:GetService("CoreGui"):FindFirstChild(title) then
+        game:GetService("CoreGui")[title]:Destroy()
     end
-    
+
     -- Window Main
     local WinTypes = {}
     local WindowDragging, SliderDragging, ColorPickerDragging = false, false, false
@@ -21,7 +21,7 @@ function Library:CreateWindow(title)
     local UIGradient = Instance.new("UIGradient")
     local Title = Instance.new("TextLabel")
     local Pattern = Instance.new("ImageLabel")
-    local TabHolder = Instance.new("Frame")
+    local TabHolder = Instance.new("ScrollingFrame")
     local UIListLayout = Instance.new("UIListLayout")
     local UIPadding = Instance.new("UIPadding")
     local Tab = Instance.new("Frame")
@@ -44,7 +44,7 @@ function Library:CreateWindow(title)
     pagesFolder2.Name = "pagesFolder"
     pagesFolder2.Parent = TopBar_2
 
-    Fatility.Name = name
+    Fatility.Name = title
     Fatility.Parent = game:GetService("CoreGui")
 
     Main.Name = "Main"
@@ -107,6 +107,10 @@ function Library:CreateWindow(title)
     TabHolder.BackgroundTransparency = 1.000
     TabHolder.Position = UDim2.new(0, 162, 0, 20)
     TabHolder.Size = UDim2.new(1, -162, 1, -20)
+    TabHolder.ScrollBarImageTransparency = 1
+    TabHolder.ScrollBarThickness = 0
+    TabHolder.CanvasSize = UDim2.new(1,0,0,0)
+    TabHolder.CanvasPosition = Vector2.new(0,0)
     
     UIListLayout.Parent = TabHolder
     UIListLayout.FillDirection = Enum.FillDirection.Horizontal
@@ -184,6 +188,11 @@ function Library:CreateWindow(title)
     TopLine2.Position = UDim2.new(0, 0, 0, 30)
     TopLine2.Size = UDim2.new(1, 0, 0, 1)
 
+    TabHolder.ChildAdded:Connect(function(child)
+        repeat wait() until child.Size ~= nil and child.Size ~= UDim2.new(0,0,0,0)
+        TabHolder.CanvasSize = UDim2.new(0,UIListLayout.AbsoluteContentSize.X,0,0)
+    end)
+
     -- Window Dragging
     local userinputservice = game:GetService("UserInputService")
     local dragInput, dragStart, startPos = nil, nil, nil
@@ -215,10 +224,6 @@ function Library:CreateWindow(title)
         end
     end)
 
-    function WinTypes:Destroy()
-        Fatility:Destory()
-    end
-
     function WinTypes:CreateTab(name)
         name = name or "Tab"
 
@@ -235,28 +240,35 @@ function Library:CreateWindow(title)
         TabButtonA.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
         TabButtonA.BackgroundTransparency = 1.000
         TabButtonA.BorderSizePixel = 0
-        TabButtonA.Size = UDim2.new(0, 60, 0, 20)
+        TabButtonA.Size = UDim2.new(0, 40, 0, 20)
         TabButtonA.Font = Enum.Font.Ubuntu
         TabButtonA.Text = name
         TabButtonA.TextColor3 = Color3.fromRGB(104, 98, 138)
-        TabButtonA.TextSize = 12
-        TabButtonA.MouseButton1Click:Connect(function()
-            for i,v in next, pagesFolder2:GetChildren() do
-                v.Visible = false
-            end 
-            UnderTab.Visible = true
-            UnderTab.Active = true
+        TabButtonA.TextSize = 14.000
 
-            for i,v in next, TabHolder:GetChildren() do
-                if v:IsA("TextButton") then
-                    game.TweenService:Create(v, TweenInfo.new(0.2, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
-                        TextColor3 = Color3.fromRGB(104, 98, 138)
-                    }):Play()
+        local cooldown = false
+        TabButtonA.MouseButton1Click:Connect(function()
+            if cooldown == false then
+                cooldown = true
+                for i,v in next, pagesFolder2:GetChildren() do
+                    v.Visible = false
+                end 
+                UnderTab.Visible = true
+                UnderTab.Active = true
+
+                for i,v in next, TabHolder:GetChildren() do
+                    if v:IsA("TextButton") then
+                        game.TweenService:Create(v, TweenInfo.new(0.2, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
+                            TextColor3 = Color3.fromRGB(104, 98, 138)
+                        }):Play()
+                    end
                 end
+                game.TweenService:Create(TabButtonA, TweenInfo.new(0.2, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
+                    TextColor3 = Color3.fromRGB(255, 255, 255)
+                }):Play()
+                wait(0.25)
+                cooldown = false
             end
-            game.TweenService:Create(TabButtonA, TweenInfo.new(0.2, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
-                TextColor3 = Color3.fromRGB(255, 255, 255)
-            }):Play()
         end)
 
         Line_2.Name = "Line"
@@ -286,6 +298,9 @@ function Library:CreateWindow(title)
         
         UIPadding_2.Parent = UnderTab
         UIPadding_2.PaddingLeft = UDim.new(0, 12)
+
+        local textSize = game:GetService("TextService"):GetTextSize(TabButtonA.text, TabButtonA.textSize, TabButtonA.Font, Vector2.new(math.huge, math.huge))
+        TabButtonA.Size = UDim2.new(0, textSize.X, 0, 20)
 
         function TabTypes:CreateUnderTab(name)
             name = name or "UnderTab"
@@ -317,35 +332,42 @@ function Library:CreateWindow(title)
             TabButtonA_2.RichText = true
             TabButtonA_2.TextColor3 = Color3.fromRGB(104, 98, 138)
             TabButtonA_2.TextSize = 14.000
+
+            local cooldown = false
             TabButtonA_2.MouseButton1Click:Connect(function()
-                for i,v in next, pagesFolder:GetChildren() do
-                    v.Visible = false
-                end 
-                HomeTab.Visible = true
-                HomeTab.Active = true
-            
-                for _, folder in pairs(pagesFolder2:GetChildren()) do
-                    if folder:IsA("Frame") and folder.Name == "UnderTab" then
-                        for i,v in next, folder:GetChildren() do
-                            if v:IsA("TextButton") then
-                                if v == TabButtonA_2 then
-                                    game.TweenService:Create(v, TweenInfo.new(0.2, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
-                                        TextColor3 = Color3.fromRGB(255, 255, 255)
-                                    }):Play()
-                                    game.TweenService:Create(v.Line, TweenInfo.new(0.2, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
-                                        BackgroundTransparency = 0
-                                    }):Play()
-                                else
-                                    game.TweenService:Create(v, TweenInfo.new(0.2, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
-                                        TextColor3 = Color3.fromRGB(104, 98, 138)
-                                    }):Play()
-                                    game.TweenService:Create(v.Line, TweenInfo.new(0.2, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
-                                        BackgroundTransparency = 1
-                                    }):Play()
+                if cooldown == false then
+                    cooldown = true
+                    for i,v in next, pagesFolder:GetChildren() do
+                        v.Visible = false
+                    end 
+                    HomeTab.Visible = true
+                    HomeTab.Active = true
+                
+                    for _, folder in pairs(pagesFolder2:GetChildren()) do
+                        if folder:IsA("Frame") and folder.Name == "UnderTab" then
+                            for i,v in next, folder:GetChildren() do
+                                if v:IsA("TextButton") then
+                                    if v == TabButtonA_2 then
+                                        game.TweenService:Create(v, TweenInfo.new(0.2, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
+                                            TextColor3 = Color3.fromRGB(255, 255, 255)
+                                        }):Play()
+                                        game.TweenService:Create(v.Line, TweenInfo.new(0.2, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
+                                            BackgroundTransparency = 0
+                                        }):Play()
+                                    else
+                                        game.TweenService:Create(v, TweenInfo.new(0.2, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
+                                            TextColor3 = Color3.fromRGB(104, 98, 138)
+                                        }):Play()
+                                        game.TweenService:Create(v.Line, TweenInfo.new(0.2, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
+                                            BackgroundTransparency = 1
+                                        }):Play()
+                                    end
                                 end
                             end
                         end
                     end
+                    wait(0.25)
+                    cooldown = false
                 end
             end)
 
@@ -427,6 +449,9 @@ function Library:CreateWindow(title)
             UIPadding_6.PaddingLeft = UDim.new(0, 6)
             UIPadding_6.PaddingRight = UDim.new(0, 6)
             UIPadding_6.PaddingTop = UDim.new(0, 12)
+
+            local textSize = game:GetService("TextService"):GetTextSize(TabButtonA_2.text, TabButtonA_2.textSize, TabButtonA_2.Font, Vector2.new(math.huge, math.huge))
+            TabButtonA_2.Size = UDim2.new(0, textSize.X, 0, 20)
 
             function GroupTypes:CreateSection(name, side)
                 name = name or "Section"
@@ -520,8 +545,13 @@ function Library:CreateWindow(title)
                 TopLine_2.AnchorPoint = Vector2.new(0, 1)
                 TopLine_2.BackgroundColor3 = Color3.fromRGB(62, 54, 90)
                 TopLine_2.BorderSizePixel = 0
-                TopLine_2.Position = UDim2.new(0, 60, 0, 0)
-                TopLine_2.Size = UDim2.new(1, -60, 0, 1)
+                TopLine_2.Position = UDim2.new(1, -1, 0, 0)
+                TopLine_2.Size = UDim2.new(1, -20, 0, 1)
+
+                local textSize = game:GetService("TextService"):GetTextSize(SectionName.text, SectionName.textSize, SectionName.Font, Vector2.new(math.huge, math.huge))
+                SectionName.Size = UDim2.new(0, textSize.X, 0, 15)
+                TopLine_2.Size = UDim2.new(1, textSize.X - textSize.X - textSize.X + -20, 0, 1)
+                TopLine_2.Position = UDim2.new(1, TopLine_2.AbsoluteSize.X - TopLine_2.AbsoluteSize.X - TopLine_2.AbsoluteSize.X + -1, 0, 0)
 
                 function SectionTypes:CreateToggle(name, callback)
                     name = name or "New Toggle"
