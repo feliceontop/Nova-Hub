@@ -227,11 +227,11 @@ function Library:CreateWindow(title)
         TabButtonA.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
         TabButtonA.BackgroundTransparency = 1.000
         TabButtonA.BorderSizePixel = 0
-        TabButtonA.Size = UDim2.new(0, 40, 0, 20)
+        TabButtonA.Size = UDim2.new(0, 60, 0, 20)
         TabButtonA.Font = Enum.Font.Ubuntu
         TabButtonA.Text = name
         TabButtonA.TextColor3 = Color3.fromRGB(104, 98, 138)
-        TabButtonA.TextSize = 14.000
+        TabButtonA.TextSize = 12
         TabButtonA.MouseButton1Click:Connect(function()
             for i,v in next, pagesFolder2:GetChildren() do
                 v.Visible = false
