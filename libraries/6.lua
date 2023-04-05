@@ -3,6 +3,10 @@ local Library = {}
 function Library:CreateWindow(title)
     title = title or "UI Library"
 
+    if game:GetService("CoreGui"):FindFirstChild(name) then
+        game:GetService("CoreGui")[name]:Destroy()
+    end
+    
     -- Window Main
     local WinTypes = {}
     local WindowDragging, SliderDragging, ColorPickerDragging = false, false, false
@@ -40,7 +44,7 @@ function Library:CreateWindow(title)
     pagesFolder2.Name = "pagesFolder"
     pagesFolder2.Parent = TopBar_2
 
-    Fatility.Name = "Fatility"
+    Fatility.Name = name
     Fatility.Parent = game:GetService("CoreGui")
 
     Main.Name = "Main"
