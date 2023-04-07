@@ -836,6 +836,51 @@ function Library:CreateWindow(title)
                     end)
                 end
 
+                function SectionTypes:CreateDivider(name)
+                    name = name or "New Divider"
+
+                    local Divider = Instance.new("Frame")
+                    local Title_7 = Instance.new("TextLabel")
+                    local Line_7 = Instance.new("Frame")
+                    local Line_8 = Instance.new("Frame")
+
+                    Divider.Name = "Divider"
+                    Divider.Parent = Items
+                    Divider.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                    Divider.BackgroundTransparency = 1.000
+                    Divider.BorderSizePixel = 0
+                    Divider.Size = UDim2.new(1, -24, 0, 20)
+                    
+                    Title_7.Name = "Title"
+                    Title_7.Parent = Divider
+                    Title_7.AnchorPoint = Vector2.new(0.5, 0.5)
+                    Title_7.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                    Title_7.BackgroundTransparency = 1.000
+                    Title_7.BorderSizePixel = 0
+                    Title_7.Position = UDim2.new(0.5, 0, 0.5, 0)
+                    Title_7.Size = UDim2.new(0, 50, 1, 0)
+                    Title_7.Font = Enum.Font.Ubuntu
+                    Title_7.Text = name
+                    Title_7.TextColor3 = Color3.fromRGB(255, 255, 255)
+                    Title_7.TextSize = 12.000
+                    
+                    Line_7.Name = "Line"
+                    Line_7.Parent = Divider
+                    Line_7.AnchorPoint = Vector2.new(0, 0.5)
+                    Line_7.BackgroundColor3 = Color3.fromRGB(194, 7, 84)
+                    Line_7.BorderColor3 = Color3.fromRGB(62, 54, 90)
+                    Line_7.Position = UDim2.new(0, 0, 0.5, 0)
+                    Line_7.Size = UDim2.new(1, -250, 0, 1)
+                    
+                    Line_8.Name = "Line"
+                    Line_8.Parent = Divider
+                    Line_8.AnchorPoint = Vector2.new(0, 0.5)
+                    Line_8.BackgroundColor3 = Color3.fromRGB(194, 7, 84)
+                    Line_8.BorderColor3 = Color3.fromRGB(62, 54, 90)
+                    Line_8.Position = UDim2.new(0, 250, 0.5, 0)
+                    Line_8.Size = UDim2.new(1, -250, 0, 1)
+                end
+
                 function SectionTypes:CreateSlider(name, min, max, def, callback)
                     name = name or "New Slider"
                     min = min or 0
