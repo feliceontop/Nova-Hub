@@ -217,6 +217,18 @@ function Library:CreateWindow(title)
         end
     end)
 
+    userinputservice.InputBegan:Connect(function(input)
+        if (cancbind) then
+            if (input.KeyCode == Enum.KeyCode[keybind]) then
+                Fatility.Enabled = not Fatility.Enabled
+            end
+        else
+            if (input.KeyCode == Enum.KeyCode.RightControl) then
+                Fatility.Enabled = not Fatility.Enabled
+            end
+        end
+    end)
+
     userinputservice.InputChanged:Connect(function(input)
         if input == dragInput and WindowDragging and not SliderDragging and not ColorPickerDragging then
             local Delta = input.Position - dragStart
